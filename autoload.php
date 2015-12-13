@@ -278,20 +278,6 @@
 	  $mysql->disconnect();
 	  LhpBrowser::redirectToUrl($template->getRedirect(), 302);
 	}
-	
-    /**
-     * Further debugging information
-	 * Cookies, session cookie values
-     */
-	if(DEBUG) {
-	  //foreach($_COOKIE as $key=>$val) {
-	  //  print "$key = $val<BR>";
-	  //}
-	  //$info = session_get_cookie_params();
-	  //foreach($info as $key=>$val) {
-	  //  print "$key = $val<BR>";
-	  //}
-	}
     
     /**
      * Load template file, parse template placeholders and print to screen
