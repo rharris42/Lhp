@@ -78,17 +78,17 @@
 	  foreach(static::$required_classes as $class) {
         if(!class_exists($class, false)) {
 		  $file = strtolower(preg_replace('/^Lhp/', '', $class));
-		  throw new Exception("Failed to load required class: $class - File missing: " . __DIR__ . "/system/classes/$file.php");
+		  throw new Exception("Failed to load required class: $class - File missing: " . __DIR__ . "/classes/$file.php");
 		}
 	  }
 	  if(!defined('DOMAIN_PATH')) {
-	    throw new Exception("Constant DOMAIN_PATH is not defined in  " . __DIR__ . "/system/lib/config.php");
+	    throw new Exception("Constant DOMAIN_PATH is not defined in  " . __DIR__ . "/lib/config.php");
 	  }
 	  if(!is_readable(DOMAIN_PATH)) {
 	    throw new Exception("DOMAIN_PATH does not exist or is not readable: " . DOMAIN_PATH);
 	  }
 	  if(!defined('TEMP_DIRECTORY')) {
-	    throw new Exception("Constant TEMP_DIRECTORY is not defined in  " . __DIR__ . "/system/lib/config.php");
+	    throw new Exception("Constant TEMP_DIRECTORY is not defined in  " . __DIR__ . "/lib/config.php");
 	  }
 	  if(!is_readable(TEMP_DIRECTORY)) {
 	    throw new Exception("TEMP_DIRECTORY does not exist or is not readable: " . TEMP_DIRECTORY);
@@ -144,12 +144,12 @@
     /**
      * Load lhp classes
      */
-    Lhp::Load(__DIR__ . "/system/classes");
+    Lhp::Load(__DIR__ . "/classes");
   
     /**
      * Load lhp libraries
      */
-    Lhp::Load(__DIR__ . "/system/lib");
+    Lhp::Load(__DIR__ . "/lib");
 	
     /**
      * Check lhp configuration
