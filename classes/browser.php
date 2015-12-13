@@ -41,7 +41,7 @@
      * getUserAgent - Returns name of the user agent / browser that the current request came from or
 	 *  returns boolean for specific user agent $type
 	 *
-	 $ @param string|null $type
+	 * @param string|null $type
 	 *
 	 * @return string|bool
      */
