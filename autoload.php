@@ -175,7 +175,7 @@
      * Check to make sure we are on www 
      */
     (LhpBrowser::getServerName() == 'www.' . DOMAIN) or
-      LhpBrowser::redirectToUrl('http://www.' . DOMAIN . LhpBrowser::getRequestUri(), 404);
+      LhpBrowser::redirectToUrl('http' . (LhpBrowser::isSecure()?'s':'') . '://www.' . DOMAIN . LhpBrowser::getRequestUri(), 404);
 	
     /**
      * Initiate LhpForm with filtered form data (true)
@@ -277,6 +277,20 @@
 	if($template->getRedirect() !== null) {
 	  $mysql->disconnect();
 	  LhpBrowser::redirectToUrl($template->getRedirect(), 302);
+	}
+	
+    /**
+     * Further debugging information
+	 * Cookies, session cookie values
+     */
+	if(DEBUG) {
+	  //foreach($_COOKIE as $key=>$val) {
+	  //  print "$key = $val<BR>";
+	  //}
+	  //$info = session_get_cookie_params();
+	  //foreach($info as $key=>$val) {
+	  //  print "$key = $val<BR>";
+	  //}
 	}
     
     /**
