@@ -55,11 +55,11 @@
   /**
    * @const string - Directory path of domain files without trailing /
    */
-  define('DOMAIN_PATH', dirname(dirname(__FILE__)) . '/domains/' . DOMAIN);
+  define('DOMAIN_PATH', '/web/doc/path');
    
   /**
    * @const string - Full path to temp directory (used for uploading files, plugin installations and more)
    */ 
-  define('TEMP_DIRECTORY', '/home/lasthit/_temp/');
+  define('TEMP_DIRECTORY', '/your/temp/directory/');
 
 ?>
