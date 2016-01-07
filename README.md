@@ -1,2 +1,2 @@
 # Lhp
-Simple framework that provides php function based url routing, html template parsing with MySQL and user logins
+Simple php backend that provides function based url routing, MySQL driven html template parsing and user handling.
