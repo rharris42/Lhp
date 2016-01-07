@@ -1,33 +1,14 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpBrowser - Used in static context
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpBrowser {
-	
+
     /**
      * via - Returns server variable HTTP_VIA, some devices use this like HTTP_USER_AGENT
 	 *
@@ -36,7 +17,7 @@
 	public static function getVia() {
 	  return isset($_SERVER['HTTP_VIA']) ? $_SERVER['HTTP_VIA'] : '';
 	}
-	
+
     /**
      * getUserAgent - Returns name of the user agent / browser that the current request came from or
 	 *  returns boolean for specific user agent $type
@@ -66,7 +47,7 @@
 	    return $ua;
 	  }
 	}
-	
+
     /**
      * getRequestUri - Returns request url
 	 *
@@ -75,7 +56,7 @@
 	public static function getRequestUri() {
 	  return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 	}
-	
+
     /**
      * getReferer - Returns referring url
 	 *
@@ -84,7 +65,7 @@
 	public static function getReferer() {
 	  return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 	}
-	
+
     /**
      * getReferDomain - Returns domain of referring url
 	 *
@@ -93,7 +74,7 @@
 	public static function getReferDomain() {
 	  return preg_replace('/^https?:\/\/([^\/]+).*$/i', "$1", self::getReferer());
 	}
-	
+
     /**
      * getIp - Returns ip of current user agent
 	 *
@@ -102,7 +83,7 @@
 	public static function getIp() {
 	  return isset($_SERVER['REMOTE_ADDR']) ? trim($_SERVER['REMOTE_ADDR']) : '0.0.0.0';
 	}
-	
+
     /**
      * getServerName - Returns server name (ie, www.domain.com)
 	 *
@@ -113,7 +94,7 @@
 	  $domain = (empty($domain) && isset($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : $domain;
 	  return $domain;
 	}
-	
+
     /**
      * getDomain - Returns domain of website (ie, www.domain.com)
 	 *
@@ -124,7 +105,7 @@
 	  $domain = preg_replace('/^(?:(?:.*?\.)*?)((?:[\w\-]+?)\.[a-z]+)$/', "$1", $domain);
 	  return $domain;
 	}
-	
+
     /**
      * isSecure - Returns true if we are on https
 	 *
@@ -133,7 +114,7 @@
 	public static function isSecure() {
 	  return (isset($_SERVER['http']) &&  strtolower($_SERVER['http']) == 'on');
 	}
-	
+
     /**
      * getDocumentRoot - Returns document root path
 	 *
@@ -142,7 +123,7 @@
 	public static function getDocumentRoot() {
 	  return isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : './';
 	}
-	
+
     /**
      * getRequestMethod - Returns request method of user agent
      *
@@ -151,7 +132,7 @@
 	public static function getRequestMethod() {
 	  return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : null;
 	}
-	
+
     /**
      * redirectToUrl - redirects browser to $url with header of $type
 	 *
@@ -174,6 +155,6 @@
 	  header("Location: $url");
 	  exit;
 	}
-	
+
   }
 ?>
