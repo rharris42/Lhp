@@ -1,33 +1,14 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpRequest
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpRequest {
-  
+
     /**
      * @var array - Standard request headers
      */
@@ -48,13 +29,13 @@
       'Expect',               // Indicates that particular server behaviors are required by the client [  Expect: 100-continue ]
       'From',                 // The email address of the user making the request [ From: user@example.com ]
       'Host',                 // The domain name of the server (for virtual hosting), and the TCP port number on which the server is listening. The port number may be omitted if the port is the standard port for the service requested. Mandatory since HTTP/1.1. [ Host: en.wikipedia.org:80, Host: en.wikipedia.org ]
-      'If-Match',             // Only perform the action if the client supplied entity matches the same entity on the server. This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. [ If-Match: "737060cd8c284d8af7ad3082f209582d" ] 
+      'If-Match',             // Only perform the action if the client supplied entity matches the same entity on the server. This is mainly for methods like PUT to only update a resource if it has not been modified since the user last updated it. [ If-Match: "737060cd8c284d8af7ad3082f209582d" ]
       'If-Modified-Since',    // Allows a 304 Not Modified to be returned if content is unchanged [ If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT ]
       'If-None-Match',        // Allows a 304 Not Modified to be returned if content is unchanged, see HTTP ETag [ If-None-Match: "737060cd8c284d8af7ad3082f209582d" ]
       'If-Range',             // If the entity is unchanged, send me the part(s) that I am missing; otherwise, send me the entire new entity [ If-Range: "737060cd8c284d8af7ad3082f209582d" ]
       'If-Unmodified-Since',  // Only send the response if the entity has not been modified since a specific time. [ If-Unmodified-Since: Sat, 29 Oct 1994 19:43:31 GMT ]
       'Max-Forwards',         // Limit the number of times the message can be forwarded through proxies or gateways. [ Max-Forwards: 10 ]
-      'Origin',               // Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response field) [ Origin: http://www.example-social-network.com ] 
+      'Origin',               // Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response field) [ Origin: http://www.example-social-network.com ]
       'Pragma',               // Implementation-specific fields that may have various effects anywhere along the request-response chain [ Pragma: no-cache ]
       'Proxy-Authorization',  // Authorization credentials for connecting to a proxy. [ Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ== ]
       'Range',                // Request only part of an entity. Bytes are numbered from 0. See Byte serving. [ Range: bytes=500-999 ]
@@ -65,14 +46,14 @@
       'Via',                  // Informs the server of proxies through which the request was sent. [ Via: 1.0 fred, 1.1 example.com (Apache/1.1) ]
       'Warning'               // A general warning about possible problems with the entity body. [ Warning: 199 Miscellaneous warning ]
 	);
-	
+
     /**
      * @var array - Standard response headers
      */
 	private $default_response_headers = array(
-	
+
 	);
-	
+
     /**
      * @var array - Standard response headers
      */
@@ -157,7 +138,7 @@
 	  '598' => 'Network Read Timeout Error (Unknown)',
 	  '599' => 'Network Connect Timeout Error (Unknown)',
 	);
-	
+
     /**
      * @var array - List of standard request methods
      */
@@ -172,49 +153,49 @@
 	  'CONNECT' => 'Converts the request connection to a transparent TCP/IP tunnel, usually to facilitate SSL-encrypted communication (HTTPS) through an unencrypted.',
 	  'PATCH' => 'Is used to apply partial modifications to a resource'
 	);
-  
+
     /**
-     * @const string - Http version 
+     * @const string - Http version
      */
 	const HTTP_VERSION = 'HTTP/1.1';
-  
+
     /**
      * @var string - Response of an http request
      */
 	private $response = '';
-	
+
     /**
      * @var string - Raw response header of an http request
      */
 	private $raw_response_header = '';
-	
+
     /**
      * @var array - Key/value pairs of response headers
      */
 	private $response_header = array();
-	
+
     /**
      * @var int - Response code of an http request
      */
 	private $response_code = 0;
-	
+
     /**
      * @var array - Request headers
      */
 	private $request_header = array();
-	
+
     /**
      * @var string - First line of request header
      */
 	private $top_header = null;
-	
+
     /**
      * @var int - Request timeout in seconds
      */
 	private $timeout = 60;
-	
+
     /**
-     * LhpRequest - Http request handling object 
+     * LhpRequest - Http request handling object
      *
 	 * @param string $domain
 	 * @param string $page
@@ -227,7 +208,7 @@
 	  $this->addRequestHeader('Accept', 'text/html; utf-8');
 	  $this->addRequestHeader('Connection', 'close');
 	}
-	
+
     /**
      * getRespnse - Returns html response after send() request
      *
@@ -236,7 +217,7 @@
 	public function getResponse() {
 	  return $this->response;
 	}
-	
+
     /**
      * getRawResponseHeader - Returns html response header after send() request
      *
@@ -245,7 +226,7 @@
 	public function getRawResponseHeader() {
 	  return $this->raw_response_header;
 	}
-	
+
     /**
      * getResponseHeader - Returns html response header after send() request
      *
@@ -258,7 +239,7 @@
 	  }
 	  return $val;
 	}
-	
+
     /**
      * getResponseHeaderFields - Return all response header key values
      *
@@ -267,7 +248,7 @@
 	public function getResponseHeaderFields() {
 	  return array_keys($this->response_header);
 	}
-	
+
     /**
      * getResponseCode - Returns html response code after send() request
      *
@@ -276,7 +257,7 @@
 	public function getResponseCode() {
 	  return $this->response_code;
 	}
-	
+
     /**
      * setTimeout - Sets request timeout in seconds
      *
@@ -286,7 +267,7 @@
 	  $this->timeout = $t;
 	  return $this;
 	}
-	
+
     /**
      * addRequestHeader - Add to http request header
      *
@@ -298,7 +279,7 @@
 	  }
 	  return $this;
 	}
-	
+
     /**
      * getRequestHeader - Get http request header $key
      *
@@ -311,7 +292,7 @@
 	  }
 	  return $val;
 	}
-	
+
     /**
      * getRequestHeaderFields - Return all request header key/value pairs
      *
@@ -320,9 +301,9 @@
 	public function getRequestHeaderFields() {
 	  return array_keys($this->request_header);
 	}
-	
+
     /**
-     * buildRequestHeader - Build complete http request header 
+     * buildRequestHeader - Build complete http request header
      *
      * @return string
      */
@@ -334,7 +315,7 @@
 	  $header .= "\r\n";
 	  return $header;
 	}
-	
+
     /**
      * send - Send http request or https request if $secure is set to true
 	 *
@@ -389,7 +370,7 @@
 			  }
 			  else {
 			    $this->response_header[$matches[1]] = array($this->response_header[$matches[1]], trim($matches[2]));
-			  }   
+			  }
 		    }
 		    else {
 		      $this->response_header[$matches[1]] = trim($matches[2]);
@@ -399,6 +380,6 @@
 	  }
 	  return $this;
 	}
-	
+
   }
 ?>
