@@ -1,33 +1,14 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpTemplate
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpTemplate {
-	
+
     /**
      * @var array - List of string formatting modifiers
      */
@@ -51,7 +32,7 @@
 	  'smysql' => '$mysql->real_escape(%s)',
 	  'fext' => 'file_get_ext(%s)'
 	);
-  
+
     /**
      * @var array - Data array of overloaded property values
 	 * Examples of valid placeholders:
@@ -65,61 +46,61 @@
 	 * {user_defined_object.property}
      */
     private $placeholder_regexp = '([a-zA-Z](?:[a-zA-Z0-9_]*))((?:\.[a-zA-Z0-9](?:[a-zA-Z0-9_]*))*)((?::[a-zA-Z0-9_]+)*)';
-  
+
     /**
      * @var array - Data array of overloaded property values
      */
 	private $data = array();
-  
+
     /**
      * @var string - Additional HTTP headers to be used on current request
      */
 	private $http_header = null;
-  
+
     /**
      * @var string - HTML content of template file
      */
 	private $html = '';
-  
+
     /**
      * @var string - Path of template file
      */
 	private $path = '';
-	
+
     /**
      * @var string - Route to template
      */
 	private $template_route = '';
-	
+
     /**
      * @var string - Route to execute
      */
 	private $route = '';
-	
+
     /**
      * @var string - Flag determining whether or not we are performing an ajax request
      */
 	private $ajax = false;
-	
+
     /**
      * @var string - URL to redirect to
      */
 	private $redirect = null;
-  
+
     /**
      * @var array -  List of improperly formatted template vars
      */
 	private $bad_vars = array();
-	
+
     /**
      * LhpTemplate - Initiate template object and set route based on request uri
      */
 	public function __construct() {
 
 	}
-	
+
     /**
-     * loadTemplateFile - Loads template file based on route or given $path 
+     * loadTemplateFile - Loads template file based on route or given $path
      *  also performs first parse of template commands (ie. including other templates) {-t template.tpl.htm}
 	 * @param string $path
 	 *
@@ -141,11 +122,11 @@
 	  }
 	  Lhp::Debug("template path = $this->path");
 	}
-	
+
     /**
      * addModifier - Adds placeholder modifiers to the default list of $this->modifiers
-	 *   modifier $key values must only contain the following characters [a-zA-Z0-9] (case sensitive) 
-	 * 
+	 *   modifier $key values must only contain the following characters [a-zA-Z0-9] (case sensitive)
+	 *
 	 * @param string $key - the name of the placeholder modifier that you would use within your html templates ( ex: {myvar:mynewmodifier} )
 	 * @param string $val - the name of the function to execute for the specified modifier ( ex: 'strtolower(%s)' )
 	 *
@@ -154,14 +135,14 @@
 	public function addModifier($key,$val) {
 	  $this->modifiers[$key] = $val;
 	}
-	
+
     /**
      * setHeader - Set http header
      */
 	public function setHeader($header) {
 	  $this->http_header[] = $header;
 	}
-	
+
     /**
      * add - Add placeholders
      */
@@ -170,7 +151,7 @@
 		$this->data[$key] = $val;
 	  }
 	}
-	
+
     /**
      * __set - Magic function to set the placeholder values
      */
@@ -178,7 +159,7 @@
 	  $this->data[$name] = $value;
 	  return true;
 	}
-	
+
     /**
      * __get - Magic function to get the placeholder value
      */
@@ -190,15 +171,15 @@
 	    return null;
 	  }
 	}
-	
+
     /**
-     * getRedirect - Returns redirect url 
+     * getRedirect - Returns redirect url
      *
      */
 	public function getRedirect() {
 	  return $this->redirect;
 	}
-	
+
     /**
      * setRedirect - Sets redirect url
      *
@@ -206,31 +187,31 @@
 	public function setRedirect($uri) {
       $this->redirect = $uri;
 	}
-	
+
     /**
-     * getRoute - Returns route 
+     * getRoute - Returns route
      *
      */
 	public function getRoute() {
 	  return $this->route;
 	}
-	
+
     /**
-     * setTemplateRoute - Sets template route 
+     * setTemplateRoute - Sets template route
      *
      */
 	public function setTemplateRoute($route) {
 	  $this->template_route = $route;
 	}
-	
+
     /**
-     * getAjax - Returns ajax 
+     * getAjax - Returns ajax
      *
      */
 	public function getAjax() {
 	  return $this->ajax;
 	}
-	
+
     /**
      * setAjax - Sets ajax flag
      *
@@ -238,7 +219,7 @@
 	public function setAjax($ajax) {
       $this->ajax = $ajax;
 	}
-	
+
     /**
      * findRoute - Set template route and get UserRoute based on uri
      *
@@ -256,7 +237,7 @@
 	  $this->route = $route;
 	  return LhpRoute::$route();
 	}
-	
+
     /**
      * getTemplateVars - add objects / arrays to data container to be used when parsing template
      *
@@ -291,7 +272,7 @@
 	  //print "<BR>";
 	  return $vars;
 	}
-	
+
     /**
      * parse - parse template variables with object / associative array data
      *
@@ -319,7 +300,7 @@
 			    $replace_value = $form->get($keys);
 			  }
 			}
-		    else if($params['obj'] == 'session' || $params['obj'] == 'user') { 
+		    else if($params['obj'] == 'session' || $params['obj'] == 'user') {
 		      $replace_value = $user->get($keys);
 		    }
 		    else if($params['obj'] == 'cookie') {
@@ -344,7 +325,7 @@
 	  }
 	  return $html;
 	}
-	
+
     /**
      * parseBlocks - parse template blocks <lhp>...</lhp> with object / associative array data
 	 *  We must parse blocks first, as parsing the whole template first will overwrite the data within the blocks
@@ -359,7 +340,7 @@
 	  /** go through each <lhp>...</lhp> block and parse placeholders */
 	  preg_match_all('/<lhp((?:\s+(?:\w+)="(?:.*?)")+?)\s*>(.*?)<\/lhp>/si', $this->html, $matches);
       for($a=0, $b=count($matches[1]); $a<$b; $a++) {
-	  
+
 	    /** Set block paramaters */
 	    $params_str = $matches[1][$a];
 	    $params = array(
@@ -384,17 +365,17 @@
 			//print "$key = " . $params[$key] . "<BR>";
 		    if($params[$key] === 'true') { $params[$key] = true; }
 		    else if($params[$key] === 'false') { $params[$key] = false; }
-		  } 
+		  }
 		}
 		unset($pmatches);
-		
+
 		/** Set active and else blocks */
 		$block = $matches[2][$a];
 		$block_else = null;
 		if(preg_match('/(<lhp:else>)/i', $block, $imatches)) {
 		  list($block, $block_else) = explode($imatches[1], $block);
 		}
-		
+
 	    //print "<BR><BR>outer = " . htmlentities($matches[0][$a]) . "<BR>\n";
 		//print "params = <BR>\n";
 		//foreach($params as $key=>$val) {
@@ -402,7 +383,7 @@
 		//}
 		//print "inner = " . htmlentities($block) . "<BR>\n";
 		//print "else = " . htmlentities($block_else) . "<BR>\n";
-		
+
 		/** build html block by specified type */
 		$complete_html = '';
 		$counter = 1;
@@ -414,21 +395,21 @@
 		  $rows_found = 0;
 		  if(preg_match('/(?:(\d+|%d),)?\s*(\d+)$/', $params['query'], $smatches)) {
 		    $start = isset($smatches[1]) ? $smatches[1] : $start;
-			$increment = isset($smatches[2]) ? $smatches[2] : $increment; 
+			$increment = isset($smatches[2]) ? $smatches[2] : $increment;
 		  }
 		  else if(preg_match('/%d,\s*%d$/', $params['query'], $smatches)) {
 		    $start = $form->get('start_limit');
-		    $params['query'] = sprintf($params['query'], $form->get('start_limit'), $form->get('end_limit')); 
+		    $params['query'] = sprintf($params['query'], $form->get('start_limit'), $form->get('end_limit'));
 		  }
 		  if($start === '%d') {
 		    $start = $offset * $increment;
-		    $params['query'] = sprintf($params['query'], $start); 
+		    $params['query'] = sprintf($params['query'], $start);
 		  }
 		  $counter = $counter + $start;
 		  while($row = $mysql->fetch($params['query'])) {
 		    /** execute optional function parameter to add more template variables */
 		    if($params['func'] !== null && $params['functype'] !== null && is_callable($params['func'])) {
-		      $params['func']($row, $params['functype']); 
+		      $params['func']($row, $params['functype']);
 		    }
 		    if($params['cols'] > 0 && (($counter-1) % $params['cols'] === 0)) {
 			  $complete_html .= "\n<tr>\n";
@@ -487,21 +468,21 @@
 		  }
 		  $complete_html = $this->parse($block, array('pagelinks' => $pagelinks));
 		}
-		
+
 		/** for empty results for lists that have an <lhp:else> block */
 		if(empty($complete_html) && $block_else !== null) {
 		  $complete_html = $block_else;
 		}
-		
+
 		/** update block placeholder with parsed html */
 		$this->html = preg_replace('/' . preg_quote($matches[0][$a], '/') . '/', $complete_html, $this->html);
 	  }
 	}
-	
+
 	public function parseAll() {
 	  $this->html = $this->parse($this->html);
 	}
-	
+
     /**
      * show - prints template to browser
 	 *  has option to compress output to minize the amount of data actually sent
@@ -511,17 +492,17 @@
 	  /** Reduce file size by optimizing code */
 	  //$this->html = preg_replace('/(^\s+|\s+$)/m', '', $this->html);
 	  //$this->html = preg_replace('/[\r\n]/', '', $this->html);
-	  
+
 	  /** Print HTTP header if applicable */
 	  if(count($this->http_header) > 0) {
 	    foreach($this->http_header as $val) {
 	      header($val);
 		}
 	  }
-	  
+
 	  /** Print compiled template */
 	  print $this->html;
 	}
-	
+
   }
 ?>
