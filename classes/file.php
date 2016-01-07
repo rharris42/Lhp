@@ -1,49 +1,30 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpFile
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpFile {
-	
+
     /**
      * LhpFile - Object is used in static context
      *
      * @param string $path
      */
 	public function __construct($path=null) {
-	
+
 	}
-	
+
     /**
      * info - Retrieves file info
 	 *
      * @param string $path
      * @param string $key (dirname, basename, extension (if any), and filename)
 	 *
-	 * @return array|string  
+	 * @return array|string
      */
 	public static function info($path=null,$key=null) {
 	  if(file_exists($path)) {
@@ -57,7 +38,7 @@
 	  }
 	  return null;
 	}
-	
+
     /**
      * getSize - Returns size of file
 	 *
@@ -76,11 +57,11 @@
 	  }
 	  return $size;
 	}
-	
+
     /**
      * get - Sets contents of file for use with $this->contents
 	 *
-	 * @param string $path 
+	 * @param string $path
 	 *
 	 * @return object
 	 *
@@ -99,14 +80,14 @@
 	  }
 	  return $contents;
 	}
-	
+
     /**
      * put - Overwrite existing, create new file, or append to existing with contents
 	 *   also uses file locking flags (have to further test and check how it works)
 	 *
 	 * @param string $path
 	 * @param string $contents
-	 * @param bool $append 
+	 * @param bool $append
 	 *
 	 * @return object
 	 *
@@ -131,18 +112,18 @@
 	    throw new Exception("Could not write to file: $path");
       }
 	}
-	
+
     /**
      * grp - Change grp of file or directory
 	 *
 	 * @param string $path
-	 * @param int $mod 
+	 * @param int $mod
 	 *
 	 * @throws Exception
      */
 	public static function grp($path=null,$grp=null) {
 	  $dirname = self::info($path, 'dirname');
-	  if(!is_writable($dirname)) { 
+	  if(!is_writable($dirname)) {
 	    throw new Exception("$dirname is not writable.");
 	  }
 	  else if(!is_writable($path)) {
@@ -155,18 +136,18 @@
 	    chgrp($path, $mod);
 	  }
 	}
-	
+
     /**
      * mod - Change mod of file or directory
 	 *
 	 * @param string $path
-	 * @param int $mod 
+	 * @param int $mod
 	 *
 	 * @throws Exception
      */
 	public static function mod($path=null,$mod=0777) {
 	  $dirname = self::info($path, 'dirname');
-	  if(!is_writable($dirname)) { 
+	  if(!is_writable($dirname)) {
 	    throw new Exception("$dirname is not writable.");
 	  }
 	  else if(!is_writable($path)) {
@@ -179,7 +160,7 @@
 	    chmod($path, $mod);
 	  }
 	}
-	
+
     /**
      * newDirectory - Creates new directory within parent directory $dirname
 	 *   if $path_to_create is a boolean, then a random 10 character directory is created instead
@@ -202,7 +183,7 @@
 	  }
 	  else {
 	    if(is_bool($path_to_create)) {
-		  $path_to_create = ''; 
+		  $path_to_create = '';
           $chars = 'abcdefghijklmnopqrstuvwxyz';
 	      $charlen = strlen($chars) - 1;
 	      $totalCount = 1000;
@@ -224,7 +205,7 @@
 	  }
 	  return false;
     }
-	
+
     /**
      * getHashDirectory - Gets directory structure based upon md5 hash using 2 characters breaks
 	 *
@@ -243,6 +224,6 @@
 	  }
 	  return implode('/', $pieces);
 	}
-  
+
   }
 ?>
