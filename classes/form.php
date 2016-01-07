@@ -1,51 +1,32 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpForm
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpForm {
-  
+
     /**
      * @var array - List of allowed request methods
      */
 	private $valid_request_methods = array('post', 'get', 'head');
-  
+
     /**
      * @var array - Array of uploaded files
      */
 	private $files = array();
-	
+
     /**
      * @var array - Key/Value pairs of form post data
      */
 	private $form = array();
-	
+
     /**
      * LhpForm - Returns a form object containing all form data including uploaded files
-	 *  by default all html, javascript, and <.*?> tags are removed. 
+	 *  by default all html, javascript, and <.*?> tags are removed.
      *
      * @param bool $notags
      */
@@ -63,7 +44,7 @@
 	        }
           }
         }
-	    if(!isset($this->form['offset']) || !is_number($this->form['offset'])) {
+	    if(!isset($this->form['offset']) || !is_int($this->form['offset'])) {
 	      $this->set('offset', 0);
 	    }
 	    if(isset($_FILES)) {
@@ -76,18 +57,18 @@
 	    }
 	  }
 	}
-	
+
     /**
-     * fields - Returns all form data keys 
+     * fields - Returns all form data keys
      *
      * @return array
      */
 	public function fields() {
 	  return array_keys($this->form);
 	}
-	
+
     /**
-     * get - Returns form field value 
+     * get - Returns form field value
      *
      * @param string $key
 	 * @param string|null $key2
@@ -106,27 +87,9 @@
 	  }
 	  return $val;
 	}
-	
+
     /**
-     * hget - Returns form field value using htmlentities encoding 
-     *
-     * @param string $key
-	 * @param string|null $key2
-     *
-     * @return mixed string|float|int|array
-     */
-	public function hget($key,$key2=null) {
-	  $val = htmlentities($this->get($key,$key2), ENT_QUOTES);
-	  if($val !== null) { 
-	    // $from_encoding = mb_detect_encoding($val);
-	    $from_encoding = 'ASCII';
-	    $val = mb_convert_encoding($val, 'HTML-ENTITIES', $from_encoding);
-	  }
-	  return $val;
-	}
-	
-    /**
-     * set - Sets form field value 
+     * set - Sets form field value
      *
      * @param string $key
 	 * @param string|null $key2
@@ -147,7 +110,7 @@
 	  }
 	  return $this;
 	}
-	
+
     /**
      * getFile - Returns array containing information about the uploaded file or
 	 *  returns the specific key value if specified
@@ -170,9 +133,9 @@
 	  }
 	  return null;
 	}
-	
+
     /**
-     * parse - Filters (optional param), stripcslashes (if needed) and converts  
+     * parse - Filters (optional param), stripcslashes (if needed) and converts
 	 *   integer and float strings to actually int and float types
 	 *   removes all unicode (ie. \xe2\x80\x8e)
      *
@@ -196,11 +159,32 @@
       if(preg_match('/^\d+\.\d+$/', $val)) {
         $val = floatval($val);
       }
-      else if(is_number($val)) {
+      else if(preg_match('/^\d+$/',$val)) {
         $val = intval($val);
       }
 	  return $this;
 	}
-	
+
+    /**
+     * set_tokens - Set md5 hash token for form validation
+     */
+    public function set_tokens(&$template) {
+      $hash = str_random(32);
+	  $template->token_hash = $hash;
+      $template->token = md5(LhpBrowser::getUserAgent() . FORM_KEY . session_id() . $hash);
+    }
+
+    /**
+     * check_tokens - Check md5 hash token for form validation
+     */
+    public function check_tokens(&$cookie, &$user) {
+	  if($this->get('action') == 'save' && !$user->getBypass()) {
+	    return (LhpBrowser::getRequestMethod() == 'post' && (($cookie->get('SESSIONID') !== null && $this->get('token') == md5(LhpBrowser::getUserAgent() . FORM_KEY . $cookie->get('SESSIONID') . $this->get('token_hash'))) || $user->getBypass()));
+	  }
+	  else {
+	    return true;
+	  }
+    }
+
   }
 ?>
