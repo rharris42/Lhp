@@ -1,33 +1,14 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpDate
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpDate {
-	
+
     /**
      * @var array Key values based on date() are associated with strftime() format values
      */
@@ -52,20 +33,20 @@
 	  's' => '%S',        // 2 digit seconds with leading zero
 	  'e' => '%p'         // AM or PM
 	);
-	
+
     /**
      * LhpDate - Returns date object to handle date/time formatting
-	 * 
+	 *
      * @param string|null $format
      * @param string|null $timestamp
      */
 	public function __construct() {
-	
+
 	}
-	
+
     /**
      * check - Returns true if $datetime based on $format using date() formatting
-	 * 
+	 *
      * @param string $datetime
      * @param string $format
 	 *
@@ -74,11 +55,11 @@
     public static function check($datetime, $format='Y-m-d H:i:s') {
 	  return (date($format, strtotime($datetime)) == $datetime);
     }
-	
+
     /**
      * format - Returns formatted string based on timestamp or datetime string
 	 *  if $timestamp is null, then current time() is used
-	 * 
+	 *
      * @param string $format
      * @param string $datetime
 	 *
@@ -105,11 +86,11 @@
 	  $format = preg_replace('/\s{2,}/', ' ', $format);
 	  return $format;
 	}
-	
+
     /**
      * getSeconds - Returns number of seconds from time format: \d:\d\d (ie. 2:10)
 	 *  if $timestamp is null, then current time() is used
-	 * 
+	 *
      * @param string $time
 	 *
 	 * @return int
@@ -122,6 +103,6 @@
 	  else if($secs) { $time = $secs; }
 	  return $time;
 	}
-	
+
   }
 ?>
