@@ -1,33 +1,14 @@
 <?php
   /**
    * Copyright 2015 Last Hit Productions, Inc.
-   *
-   * You are hereby granted a non-exclusive, worldwide, royalty-free license to
-   * use, copy, modify, and distribute this software in source code or binary
-   * form for use in connection with the web services and APIs provided by
-   * Last Hit Producions (LHP).
-   *
-   * As with any software that integrates with the LHP platform, your use
-   * of this software is subject to the LHP Developer Principles and
-   * Policies [http://developers.lhpdigital.com/policy/]. This copyright notice
-   * shall be included in all copies or substantial portions of the software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   * DEALINGS IN THE SOFTWARE.
-   *
    */
-   
+
   /**
    * Class LhpMysql
    * @author Robert Harris <robert.t.harris@gmail.com>
    */
   class LhpMysql extends mysqli {
-  
+
     /**
 	 * @var array - List of mysql functions and their uses
 	 */
@@ -325,54 +306,54 @@
       'YEAR' => 'Return the year',
       'YEARWEEK' => 'Return the year and week'
 	);
-  
+
     /**
      * @var string - Mysql username
      */
 	private $user = '';
-	
+
     /**
      * @var string - Mysql password
      */
 	private $pass = '';
-	
+
     /**
      * @var string - Mysql database
      */
 	private $db = '';
-	
+
     /**
      * @var string - Mysql host
      */
 	private $host = '';
-	
+
     /**
      * @var string - Mysql port
      */
 	private $port = 0;
-	
+
     /**
      * @var bool - Connected status flag
      */
 	private $connected = false;
-	
+
     /**
      * @var object|null - Current result handler
      */
 	private $result = null;
-	
+
     /**
      * @var string|null - Current query being processed
      */
 	private $last_query = null;
-	
+
     /**
      * @var int - Number of rows found from a SELECT query
      */
 	private $num_rows = 0;
-	
+
     /**
-     * LhpMysql - Returns mysqli object 
+     * LhpMysql - Returns mysqli object
      *
 	 * @param string $user
 	 * @param string $pass
@@ -386,9 +367,9 @@
 	  $this->host = $host;
 	  $this->port = $port;
 	}
-	
+
     /**
-     * connect - Connects to mysql server 
+     * connect - Connects to mysql server
      *
 	 * @throws exception
      */
@@ -404,9 +385,9 @@
       }
 	  return $this;
 	}
-	
+
     /**
-     * disconnect - Connects to mysql server 
+     * disconnect - Connects to mysql server
      *
 	 * @throws exception
      */
@@ -417,9 +398,9 @@
       }
 	  return $this;
 	}
-	
+
     /**
-     * query - Execute mysql query 
+     * query - Execute mysql query
      *
      * @param string $query
      *
@@ -451,9 +432,9 @@
 	  }
 	  return $this;
 	}
-	
+
     /**
-     * fetch - Executes $query if supplied and fetchs associative array 
+     * fetch - Executes $query if supplied and fetchs associative array
      *
      * @param string $query
      *
@@ -482,9 +463,9 @@
 		}
 	  }
 	}
-	
+
     /**
-     * free - Free up used memory associated with mysqli::result object 
+     * free - Free up used memory associated with mysqli::result object
      *
 	 * @return object
      */
@@ -495,7 +476,7 @@
 	  $this->result = null;
       return $this;
 	}
-	
+
     /**
      * getNumRows - Returns the number of rows returned from a SELECT statement
 	 *  or the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE statement
@@ -505,9 +486,9 @@
 	public function getNumRows() {
       return $this->num_rows;
 	}
-	
+
     /**
-     * getFoundRows - Returns number of total rows matching query result when SQL_CALC_FOUND_ROWS is used 
+     * getFoundRows - Returns number of total rows matching query result when SQL_CALC_FOUND_ROWS is used
      *
 	 * @return int
      */
@@ -516,18 +497,18 @@
 	  $this->free();
       return $row['FOUND_ROWS'];
 	}
-	
+
     /**
-     * getLastId - Returns the id of the last insert statement with an auto_increment column 
+     * getLastId - Returns the id of the last insert statement with an auto_increment column
      *
 	 * @return int
      */
 	public function getLastId() {
       return $this->insert_id;
 	}
-	
+
     /**
-     * real_escape - Escapes user input to safely update / add data to the database 
+     * real_escape - Escapes user input to safely update / add data to the database
      *
 	 * @return int
      */
@@ -536,15 +517,15 @@
 	  $str = parent::real_escape_string($str);
       return $str;
 	}
-	
+
     /**
      * insert - Insert $row as is into given $table, if $row_escaped is given
-	 *  all values will be escaped with mysqli::real_escape_string 
+	 *  all values will be escaped with mysqli::real_escape_string
      *
 	 * @param string $table
 	 * @param array $row
 	 * @param array $row_escape
-	 * 
+	 *
 	 * @return bool
      */
 	public function insert($table,$row,$row_escape=array(),$ignore=false) {
@@ -562,16 +543,16 @@
 	  $values = implode(",", $values);
 	  return $this->query("INSERT INTO `$table` ($fields) VALUES($values)",$ignore);
 	}
-	
+
     /**
      * update - Update $row as is into given $table based on $where condition, if $row_escaped is given
-	 *  all values will be escaped with mysqli::real_escape_string 
+	 *  all values will be escaped with mysqli::real_escape_string
      *
 	 * @param string $table
 	 * @param string $where
 	 * @param array $row
 	 * @param array $row_escape
-	 * 
+	 *
 	 * @return bool
      */
 	public function update($table,$where,$row,$row_escape=array(),$ignore=false) {
@@ -584,18 +565,18 @@
 	  }
 	  return $this->query("UPDATE `$table` SET " . implode(',', $field_values) . " WHERE $where",$ignore);
 	}
-	
+
     /**
      * delete - Delete row(s) from specified $table under $where condition
      *
 	 * @param string $table
 	 * @param string $where
-	 * 
+	 *
 	 * @return bool
      */
 	public function delete($table,$where,$ignore=false) {
 	  return $this->query("DELETE FROM $table WHERE $where",$ignore);
 	}
-	
+
   }
 ?>
